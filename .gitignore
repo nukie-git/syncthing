@@ -1,0 +1,12 @@
+# Runtime and state files
+*.lock
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+
+# Sensitive credentials & private keys
+*key.pem
+*cert.pem
+data/
