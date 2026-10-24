@@ -1,0 +1,54 @@
+# ==============================================================================
+# Syncthing Portable (.gitignore)
+# Exclude Precompiled Binaries, Runtime Databases, TLS Keys & Update Artifacts
+# ==============================================================================
+
+# 1. Precompiled Binaries & Native Libraries
+*.exe
+*.exe.bak*
+*.dll
+*.dll.bak*
+*.so
+*.dylib
+*.pdb
+*.bin
+
+# 2. Automated Updater Engine Cache, Staging & Backups
+.update_cache/
+backup/
+*.bak
+*.bak*
+*.flag
+*.zip
+*.tar.gz
+*.7z
+
+# 3. Runtime Data, State Isolation, Database & Private Keys (state-dir: data)
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.pem
+*.key
+*.lock
+*.log
+*.log.*
+logs/
+*.dmp
+crash_reports/
+
+# 4. OS, Shell & Editor Artifacts
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+desktop.ini
+.DS_Store
+*.tmp
+*.temp
+.vs/
+.vscode/
+.idea/
+
+# 5. Graphify Codebase Knowledge Graph & Visualizer Artifacts
+graphify-out/
