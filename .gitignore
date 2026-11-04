@@ -52,3 +52,4 @@ desktop.ini
 
 # 5. Graphify Codebase Knowledge Graph & Visualizer Artifacts
 graphify-out/
+/Drop/.stfolder
