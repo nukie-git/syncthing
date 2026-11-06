@@ -264,7 +264,7 @@ Write-Host "[+] Extracted and validated new syncthing.exe binary." -ForegroundCo
 Write-Host "[*] Checking running Syncthing instances..." -ForegroundColor Yellow
 $wasRunning = $false
 $wasRunningFlag = Join-Path $updateCache "was_running.flag"
-$procs = Get-Process | Where-Object { $_.ProcessName -like "*syncthing*" }
+$procs = Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.Name -like "*syncthing*" }
 if ($procs -or (Get-NetTCPConnection -LocalPort $SyncthingPort -State Listen -ErrorAction SilentlyContinue)) {
     $wasRunning = $true
     Set-Content -Path $wasRunningFlag -Value "1" -Encoding UTF8
@@ -273,7 +273,7 @@ if ($procs -or (Get-NetTCPConnection -LocalPort $SyncthingPort -State Listen -Er
     if (Test-Path $stopVbs) {
         & wscript.exe /nologo "$stopVbs" /silent
     }
-    Get-Process | Where-Object { $_.ProcessName -like "*syncthing*" } | Stop-Process -Force -ErrorAction SilentlyContinue
+    Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.Name -like "*syncthing*" } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
     
     # Session 0 / SYSTEM sentinel stop fallback
     Start-Sleep -Milliseconds 500
@@ -384,3 +384,7 @@ if (-not $KeepArtifacts) {
 Write-Host "==========================================================" -ForegroundColor Green
 Write-Host " Syncthing update to $targetTag completed successfully!" -ForegroundColor Green
 Write-Host "==========================================================" -ForegroundColor Green
+if (Get-Command Sync-AdminOnlineVersion -ErrorAction SilentlyContinue) {
+    Sync-AdminOnlineVersion -ServiceName "syncthing" -TargetVersion $targetTag
+}
+exit 0
